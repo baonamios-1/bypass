@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bypass Link</title>
+<style>
+  /* Định dạng giao diện cơ bản */
+  body { font-family: monospace; background:#111; color:#0f0; padding:20px; }
+  input, button { padding:10px; font-size:16px; margin:5px 0; }
+  input { width:100%; background:#000; color:#0f0; border:1px solid #0f0; }
+  button { background:#0f0; color:#000; border:none; cursor:pointer; }
+  #ketqua { margin-top:20px; word-break:break-all; }
+</style>
+</head>
+<body>
+<h3>BYPASS LINK</h3>
+
+<!-- Ô nhập link gốc cần bypass -->
+<input id="linkgoc" type="text" placeholder="Nhập link cần bypass...">
+
+<!-- Nút thực hiện bypass -->
+<button onclick="bypass()">BYPASS</button>
+
+<!-- Vùng hiển thị kết quả -->
+<div id="ketqua"></div>
+
+<script>
+// Hàm thực hiện bypass link
+function bypass() {
+  // Lấy giá trị link người dùng nhập
+  var link = document.getElementById("linkgoc").value.trim();
+  var vung = document.getElementById("ketqua");
+
+  // Kiểm tra rỗng
+  if (!link) {
+    vung.innerHTML = "LỖI: CHƯA NHẬP LINK";
+    return;
+  }
+
+  // Kiểm tra định dạng URL hợp lệ
+  var hopLe = false;
+  try {
+    new URL(link);
+    hopLe = true;
+  } catch (e) {
+    hopLe = false;
+  }
+
+  if (!hopLe) {
+    vung.innerHTML = "LỖI: LINK KHÔNG HỢP LỆ";
+    return;
+  }
+
+  // Tạo link bypass qua dịch vụ trung gian
+  // Sử dụng nhiều dịch vụ dự phòng
+  var dichVu = [
+    "https://bypass.city/?url=",
+    "https://bypass.vip/?url=",
+    "https://linkvertise.vip/?url="
+  ];
+
+  // Tạo danh sách kết quả
+  var html = "<b>KẾT QUẢ BYPASS:</b><br><br>";
+  for (var i = 0; i < dichVu.length; i++) {
+    // Mã hóa link gốc để ghép vào URL dịch vụ
+    var linkBypass = dichVu[i] + encodeURIComponent(link);
+    html += "DỊCH VỤ " + (i + 1) + ":<br>";
+    html += "<a href='" + linkBypass + "' target='_blank' style='color:#0ff'>" + linkBypass + "</a><br><br>";
+  }
+
+  // Hiển thị kết quả
+  vung.innerHTML = html;
+}
+</script>
+</body>
+</html>
